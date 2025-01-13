@@ -17,7 +17,7 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'path' => "http://picsum.photos/seed/" . rand(0, 10000) . "/700",
         ];
     }
 }
