@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Money\Currencies\ISOCurrencies;
+use Money\Formatter\IntlMoneyFormatter;
+use Money\Money;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +23,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Blade::stringable(function (Money $money) {
+            $currencies = new ISOCurrencies();
+
+            $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+
+            $moneyFormatter = new intlMoneyFormatter($numberFormatter, $currencies);
+
+            return $moneyFormatter->format($money);
+        });
     }
 }
