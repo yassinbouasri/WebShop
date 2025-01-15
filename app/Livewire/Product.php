@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Actions\WebShop\AddProductVariantToCart;
 use Livewire\Component;
 
 class Product extends Component
@@ -19,9 +20,13 @@ class Product extends Component
         $this->variant = $this->getProductProperty()->value('id');
     }
 
-    public function addToCart()
+    public function addToCart(AddProductVariantToCart $cart)
     {
         $this->validate();
+
+        $cart->add(
+            variantId: $this->variant
+        );
     }
 
     public function getProductProperty()

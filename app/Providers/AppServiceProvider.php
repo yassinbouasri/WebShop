@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Money\Currencies\ISOCurrencies;
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Model::unguard();
         Blade::stringable(function (Money $money) {
             $currencies = new ISOCurrencies();
 
@@ -32,5 +35,7 @@ class AppServiceProvider extends ServiceProvider
 
             return $moneyFormatter->format($money);
         });
+
+
     }
 }
