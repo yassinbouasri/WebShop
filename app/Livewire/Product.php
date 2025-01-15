@@ -6,11 +6,22 @@ use Livewire\Component;
 
 class Product extends Component
 {
-    public $productId; //instead of passing producId as a parameter
+    public $productId; //instead of passing productId as a parameter in mount
 
-    public function mount($productId)
+    public $variant;
+
+    public $rules = [
+      'variant' => ['required', 'exists:App\Models\ProductVariant,id']
+    ];
+
+    public function mount()
     {
+        $this->variant = $this->getProductProperty()->value('id');
+    }
 
+    public function addToCart()
+    {
+        $this->validate();
     }
 
     public function getProductProperty()
