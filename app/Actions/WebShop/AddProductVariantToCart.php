@@ -11,17 +11,15 @@ class AddProductVariantToCart
 {
     public function add($variantId)
     {
-        if(auth()->guest())
-        {
-            $cart = Cart::firstOrCreate([
+        $cart = match(auth()->guest()) {
+            true =>  Cart::firstOrCreate([
                 'session_id' => session()->getId(),
-            ]);
-        }
-
-        if(auth()->user())
-        {
-            $cart = auth()->user()->cart ?: auth()->user()->cart()->create();
-        }
-        dd($cart);
+            ]),
+            false => auth()->user()->cart ?: auth()->user()->cart()->create()
+        };
+        $cart->items()->create([
+            'product_variant_id' => $variantId,
+            'quantity' => 1,
+        ]);
     }
 }
