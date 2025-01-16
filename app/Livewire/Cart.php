@@ -11,6 +11,14 @@ class Cart extends Component
     {
         return CartFactory::make()->items()->get();
     }
+
+    public function delete($itemId)
+    {
+        CartFactory::make()->items()->find($itemId)->delete();
+
+        $this->dispatch('itemRemovedFromCart');
+    }
+
     public function render()
     {
         return view('livewire.cart');
