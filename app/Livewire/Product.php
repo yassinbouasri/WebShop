@@ -3,10 +3,12 @@
 namespace App\Livewire;
 
 use App\Actions\WebShop\AddProductVariantToCart;
+use Laravel\Jetstream\InteractsWithBanner;
 use Livewire\Component;
 
 class Product extends Component
 {
+    use InteractsWithBanner;
     public $productId; //instead of passing productId as a parameter in mount
 
     public $variant;
@@ -17,7 +19,7 @@ class Product extends Component
 
     public function mount()
     {
-        $this->variant = $this->getProductProperty()->value('id');
+        $this->variant = $this->product->variants->value('id');
     }
 
     public function addToCart(AddProductVariantToCart $cart)
@@ -27,6 +29,7 @@ class Product extends Component
         $cart->add(
             variantId: $this->variant
         );
+        $this->banner('Product added to cart');
     }
 
     public function getProductProperty()
