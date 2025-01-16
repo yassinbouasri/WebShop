@@ -12,8 +12,20 @@
                     <td>
                         {{ $item->product->name }} Size: {{ $item->variant->size }} Color: {{ $item->variant->color }}
                     </td>
-                    <td>
+                    <td class="flex items-center">
+                        <button wire:click="decrement({{ $item->id }})" @disabled($item->quantity === 1)>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                            </svg>
+
+                        </button>
                         {{ $item->quantity }}
+                        <button wire:click="increment({{ $item->id }}) ">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+
+                        </button>
                     </td>
                     <td>
                         <button wire:click="delete({{ $item->id }})">
