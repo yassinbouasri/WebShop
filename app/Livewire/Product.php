@@ -30,6 +30,8 @@ class Product extends Component
             variantId: $this->variant
         );
         $this->banner('Product added to cart');
+
+        $this->dispatch('productAddedToCart');
     }
 
     public function getProductProperty()
@@ -40,4 +42,5 @@ class Product extends Component
     {
         return view('livewire.product');
     }
+
 }

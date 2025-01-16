@@ -8,6 +8,7 @@ use Livewire\Component;
 
 class StoreFront extends Component
 {
+
     public function getProductsProperty(): Collection
     {
         return Product::query()->get();

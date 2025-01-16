@@ -15,6 +15,8 @@
                     <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                         {{ __('home') }}
                     </x-nav-link>
+
+                    @livewire('NavigationCart')
                 </div>
             </div>
 
