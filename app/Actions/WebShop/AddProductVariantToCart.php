@@ -10,9 +10,9 @@ use App\Models\Cart;
 
 class AddProductVariantToCart
 {
-    public function add($variantId)
+    public function add(int $variantId, int $quantity = 1, Cart $cart = null)
     {
-        CartFactory::make()->items()->firstOrCreate(
+        ($cart ?: CartFactory::make())->items()->firstOrCreate(
             [
             'product_variant_id' => $variantId,
 

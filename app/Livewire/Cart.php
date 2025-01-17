@@ -33,7 +33,7 @@ class Cart extends Component
 
     public function delete($itemId)
     {
-        $this->cart->items()->find($itemId)->delete();
+        $this->cart->items()->where('id', $itemId)->delete();
 
         $this->dispatch('itemRemovedFromCart');
     }
