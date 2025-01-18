@@ -25,7 +25,8 @@ class CreateStripeCheckoutSession
                         'allowed_countries' => ['US', 'NL']
                     ],
                     'metadata' => [
-                        'user_id' => $cart->user->id
+                        'user_id' => $cart->user->id,
+                        'cart_id' => $cart->id
                     ]
                 ],
         );

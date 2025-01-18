@@ -4,14 +4,17 @@ namespace App\Providers;
 
 use App\Actions\WebShop\MigrateSessionCart;
 use App\Factories\CartFactory;
+use App\Listeners\StripeEventListener;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
+use Laravel\Cashier\Events\WebhookReceived;
 use Laravel\Fortify\Fortify;
 use Money\Currencies\ISOCurrencies;
 use Money\Formatter\IntlMoneyFormatter;
@@ -58,6 +61,11 @@ class AppServiceProvider extends ServiceProvider
 
             return $moneyFormatter->format($money);
         });
+
+        Event::listen(
+            WebhookReceived::class,
+            StripeEventListener::class
+        );
 
 
     }

@@ -3,9 +3,10 @@
 namespace App\Listeners;
 
 use App\Actions\WebShop\HandleCheckoutSessionCompleted;
+use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Events\WebhookReceived;
 
-class StripveEventListener
+class StripeEventListener
 {
 
     /**
@@ -13,9 +14,10 @@ class StripveEventListener
      */
     public function handle(WebhookReceived $event): void
     {
+
         if ($event->payload['type'] === 'checkout.session.completed') {
             {
-                (new HandleCheckoutSessionCompleted())->handle($event->payload['object']['id']);
+                (new HandleCheckoutSessionCompleted())->handle($event->payload['data']['object']['id']);
             }
         }
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace App\Actions\WebShop;
 
+use App\Models\Cart;
 use App\Models\OrderItem;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -20,8 +21,10 @@ class HandleCheckoutSessionCompleted
 
             $user = User::find($session->metadata->user_id);
 
+            $cart = Cart::find($session->metadata['cart_id']);
+
             $order = $user->orders()->create([
-                'stripe_checkout_session_id' => $sessionId->id,
+                'stripe_checkout_session_id' => $session->id,
                 'amount_shipping' => $session->total_details->amount_shipping,
                 'amount_discount' => $session->total_details->amount_discount,
                 'amount_tax' => $session->total_details->amount_tax,
@@ -36,17 +39,17 @@ class HandleCheckoutSessionCompleted
                     'state' => $session->customer_details->address->state,
                 ],
                 'shipping_address' => [
-                    'name' => $session->customer_details->shipping->name,
-                    'city' => $session->customer_details->shipping->address->city,
-                    'country' => $session->customer_details->shipping->address->country,
-                    'line1' => $session->customer_details->shipping->address->line1,
-                    'line2' => $session->customer_details->shipping->address->line2,
-                    'postal_code' => $session->customer_details->shipping->address->postal_code,
-                    'state' => $session->customer_details->shipping->address->state,
+                    'name' => $session->customer_details->name,
+                    'city' => $session->shipping_details->address->city,
+                    'country' => $session->customer_details->address->country,
+                    'line1' => $session->customer_details->address->line1,
+                    'line2' => $session->customer_details->address->line2,
+                    'postal_code' => $session->customer_details->address->postal_code,
+                    'state' => $session->customer_details->address->state,
                 ]
             ]);
 
-            $lineItems = Cashier::stripe()->checkout->sessions->allLineItems($sessionId->id);
+            $lineItems = Cashier::stripe()->checkout->sessions->allLineItems($session->id);
 
             $orderItems = collect($lineItems->all())->map(function (LineItem $line) {
                 $product = Cashier::stripe()->products->retrieve($line->price->product);
@@ -63,7 +66,11 @@ class HandleCheckoutSessionCompleted
                     'amount_total' => $line->amount_total,
                 ]);
             });
-            $order->orderItems()->saveMany($orderItems);
+            $order->items()->saveMany($orderItems);
+
+            $cart->items()->delete();
+            $cart->delete();
+
         });
     }
 }
