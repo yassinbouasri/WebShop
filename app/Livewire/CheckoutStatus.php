@@ -15,9 +15,6 @@ class CheckoutStatus extends Component
     }
     public function getOrderProperty()
     {
-        if (auth()->guest()) {
-            return null;
-        }
         return auth()->user()->orders()->where('stripe_checkout_session_id', $this->sessionId)->first() ?? null;
     }
 
