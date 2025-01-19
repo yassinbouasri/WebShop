@@ -5,10 +5,12 @@ declare(strict_types=1);
 
 namespace App\Actions\WebShop;
 
+use App\Mail\OrderConfirmation;
 use App\Models\Cart;
 use App\Models\OrderItem;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Cashier\Cashier;
 use Stripe\LineItem;
 
@@ -71,6 +73,7 @@ class HandleCheckoutSessionCompleted
             $cart->items()->delete();
             $cart->delete();
 
+            Mail::to($user)->send(new OrderConfirmation($order));
         });
     }
 }

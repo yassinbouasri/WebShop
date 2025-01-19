@@ -8,6 +8,12 @@ Route::get('/cart', \App\Livewire\Cart::class)->name('cart');
 
 Route::get('/checkout-status', \App\Livewire\CheckoutStatus::class)->name('checkout-status');
 
+Route::get('/preview', function () {
+    $order = \App\Models\Order::first();
+
+    return new \App\Mail\OrderConfirmation($order);
+});
+
 
 //Route::middleware([
 //    'auth:sanctum',
