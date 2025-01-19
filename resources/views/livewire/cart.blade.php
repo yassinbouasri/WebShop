@@ -1,7 +1,7 @@
 <div class="grid grid-cols-4 mt-12 gap-4">
 
 
-    <div class="bg-white rounded-lg shadow p-5 col-span-3">
+    <x-panel class="col-span-3">
         <table class="w-full">
             <thead>
             <tr>
@@ -73,7 +73,7 @@
             </tr>
             </tfoot>
         </table>
-    </div>
+    </x-panel>
     <div>
         <div class=" p-5 mt-6">
             @guest

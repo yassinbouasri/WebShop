@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\MyOrders;
 use App\Livewire\ViewOrder;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,8 @@ Route::get('/preview', function () {
 
     return new \App\Mail\OrderConfirmation($order);
 });
+
+Route::get('/my-orders', Myorders::class)->name('my-orders');
 
 
 
