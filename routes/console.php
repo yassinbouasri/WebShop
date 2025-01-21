@@ -11,4 +11,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command(AbandonedCart::class)->daily();
-Schedule::command(RemoveInactiveSessionsCarts::class)->everySecond();
+Schedule::command(RemoveInactiveSessionsCarts::class)->weekly();
