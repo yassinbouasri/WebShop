@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Actions\WebShop\AddProductVariantToCart;
 use Laravel\Jetstream\InteractsWithBanner;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Product extends Component
@@ -34,7 +35,8 @@ class Product extends Component
         $this->dispatch('productAddedToCart');
     }
 
-    public function getProductProperty()
+    #[Computed]
+    public function product()
     {
         return \App\Models\Product::findOrFail($this->productId);
     }
